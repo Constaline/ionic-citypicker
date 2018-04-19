@@ -29,14 +29,27 @@ app.directive('ionicCityPicker', ['$ionicPopup', '$timeout','CityPickerService',
         vm.step = so.step || 36 // 滚动步长 （li的高度）
         if (angular.isDefined(so.defaultAreaData) && so.defaultAreaData.length > 1) {
           vm.defaultAreaData = so.defaultAreaData
-          vm.areaData = vm.defaultAreaData.join(vm.tag)
+          if(vm.defaultAreaData[2]==''){
+            vm.areaData = vm.defaultAreaData[0] + vm.tag +vm.defaultAreaData[1];
+          } else {
+            vm.areaData = vm.defaultAreaData.join(vm.tag);
+          }
         } else {
           vm.defaultAreaData =  ['北京','东城区']
           vm.areaData = angular.isDefined(so.areaData) ? so.areaData.join(vm.tag) : '请选择城市'
         }
         so.areaData = vm.areaData.split(vm.tag)
         vm.returnOk = function(){
-          (vm.city && vm.city.sub && vm.city.sub.length > 0) ? (vm.areaData = vm.province.name + vm.tag +  vm.city.name + vm.tag + vm.country.name ) : (vm.areaData = vm.province.name + vm.tag + vm.city.name)
+          // (vm.city && vm.city.sub && vm.city.sub.length > 0) ? (vm.areaData = vm.province.name + vm.tag +  vm.city.name + vm.tag + vm.country.name ) : (vm.areaData = vm.province.name + vm.tag + vm.city.name)
+          if(vm.city && vm.city.sub && vm.city.sub.length > 0){
+            if(vm.city.sub.length == 1 && vm.city.sub[0].name == ''){
+              vm.areaData = vm.province.name + vm.tag +  vm.city.name;
+            } else {
+              vm.areaData = vm.province.name + vm.tag +  vm.city.name + vm.tag + vm.country.name;
+            }
+          } else {
+            vm.areaData = vm.province.name + vm.tag + vm.city.name;
+          }
           so.areaData = vm.areaData.split(vm.tag)
           $timeout(function () {
             citypickerModel && citypickerModel.hide()
