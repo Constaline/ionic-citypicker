@@ -4,10 +4,10 @@
   "private": false,
   "author": "Minh",
   "description": "Ionic CityPicker",
-  "main": [
-    "./dist/ionic-citypicker.min.js"
-  ],
-  "scripts": {},
+  "main": "dist/ionic-citypicker.min.js",
+  "scripts": {
+    "build": "gulp"
+  },
   "license": "MIT",
   "dependencies": {},
   "devDependencies": {
